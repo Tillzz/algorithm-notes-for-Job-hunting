@@ -75,4 +75,68 @@
 4. [反转字符串中的单词](https://leetcode.cn/problems/reverse-words-in-a-string/description/)
 5. [右旋转字符](https://kamacoder.com/problempage.php?pid=1065)
 
-今天开始的是对字符串的一些操作。
+今天开始的是对字符串的一些操作。  
+卡码网的题目，都是想的自己的方法，并没有和讲解中的题目一直，因此做个记录
+```替换数字
+3. 替换数字
+#include <iostream>
+using namespace std;
+
+int main(){
+    string s;
+    cin >> s;
+    for (int i = 0; i< s.size(); i++){
+        if (s[i] >= '0' && s[i] <= '9') cout << "number";
+        else cout << s[i];
+    }
+    cout << endl;
+}
+```
+
+```右旋转字符
+5. 右旋转字符
+#include <iostream>
+#include <algorithm>
+using namespace std;
+
+int main(){
+    string s;
+    int k;
+    cin >> k;
+    cin >> s;
+
+    // 找到最后第k个位置，然后保存，再把k位置之前的元素后移，把k位置的元素补到前面
+    for (int i = 0; i<k; i++ ){
+        int right = s.size() -k +i;
+        char tmp = s[right];
+        for (int j = right -1; j>=i; j--){
+            s[j+1] = s[j];
+        }
+        s[i] = tmp;
+    }
+    
+    cout << s << endl;
+    
+}
+```
+
++ 今天是字符串类型算法的第二天，有五个题目，说实话呢今天的题目第四题(反转字符串中的单词)有点难，分为三步：
+  + 第一步：先去掉字符串中多余的空格，保证字符串的头和尾不存在多余的空格，这道题最重要的是这个函数！！
+
+        ```angular2html
+            // deleteExtraSpace函数的思想就是碰到空格就跳过，也就是删除；然后在while循环中利用slow指针将非空格字符前移，在for的下一轮循环中再把空格加上
+            // 防止在单词与单词之间存在多个空格进行干扰
+            void deleteExtraSpace(string& s){
+                int slow = 0;
+                for (int i = 0; i<s.size(); i++){
+                    if (s[i] != ' '){ //遇到非空格进行处理，即删除所有空格
+                        if (slow != 0) s[slow++] = ' '; //手动进行空格控制，即给单词之间添加空格。 slow != 0说明不是第一个单词，需要在单词前添加空格。
+                        while (i<s.size() && s[i] != ' '){ //补上该单词，遇到空格说明单词结束。
+                            s[slow++] = s[i++];
+                        }
+                    }
+                }
+                s.resize(slow);
+            }
+        ```
++ 主要还是在本科阶段的这些题目做的太少了，代码的特性思路（特殊题的特殊解题思路）上还是要多看多练，不能单纯的靠脑子解决（哈哈哈，第三题和第五题都是靠脑子想出来的）。
